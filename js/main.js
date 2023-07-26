@@ -28,6 +28,8 @@ function addCounterMinus(event) {
 
         if(wrapperChildren.textContent > 1) {
             wrapperChildren.textContent--;
+        }else if(counterWrapper.closest('.cart-wrapper') && Number(wrapperChildren.textContent) === 1) {
+            counterWrapper.closest('.cart-item').remove();
         }
     }
 }
