@@ -2,6 +2,7 @@ const dataCarts = document.querySelectorAll('[data-cart]');
 const cartWrapper = document.querySelector('.cart-wrapper');
 const cardsBody = document.querySelectorAll('.basket__parent');
 const parent = document.querySelector('.mb-5');
+const emptyBasket = document.querySelector('[data-cart-empty]');
 
 parent.addEventListener('click', counterPlus);
 parent.addEventListener('click', counterMinus);
@@ -11,6 +12,7 @@ dataCarts.forEach((dataCart) => {
     dataCart.addEventListener('click', addTask);
 });
 
+checkBasketInEmpty();
 
 //Создание Html разметки в карзине
 function addTask(event) {
@@ -27,6 +29,8 @@ function addTask(event) {
     }
     
     cartWrapper.insertAdjacentHTML('beforeend', taskHtml(taskElements));
+
+    checkBasketInEmpty();
 };
 
 //Html разметка карточки
@@ -83,6 +87,16 @@ function counterMinus(event) {
             counter.textContent--;
         }else if(Number(counter.textContent) === 1 && counterWrapper.closest('.cart-wrapper')) {
             counterWrapper.closest('.cart-item').remove();
+            
+            checkBasketInEmpty();
         }
+    }
+}
+function checkBasketInEmpty() {
+    if(cartWrapper.children.length >= 1) {
+        emptyBasket.classList.add('none');
+        console.log(true);
+    }else {
+        emptyBasket.classList.remove('none');
     }
 }
