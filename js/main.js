@@ -1,7 +1,10 @@
 const dataCarts = document.querySelectorAll('[data-cart]');
 const cartWrapper = document.querySelector('.cart-wrapper');
 const cardsBody = document.querySelectorAll('.basket__parent');
+const parent = document.querySelector('.mb-5');
 
+parent.addEventListener('click', counterPlus);
+parent.addEventListener('click', counterMinus);
 
 
 dataCarts.forEach((dataCart) => {
@@ -9,6 +12,7 @@ dataCarts.forEach((dataCart) => {
 });
 
 
+//Создание Html разметки в карзине
 function addTask(event) {
     const cart = event.target.closest('.card');
     
@@ -25,6 +29,7 @@ function addTask(event) {
     cartWrapper.insertAdjacentHTML('beforeend', taskHtml(taskElements));
 };
 
+//Html разметка карточки
 function taskHtml(taskElements) {
     const taskHTML = `<div class="cart-item" data-id="${taskElements.id}">
         <div class="cart-item__top">
@@ -56,3 +61,28 @@ function taskHtml(taskElements) {
     return taskHTML;
 }
 
+//убавление счетика карточек
+function counterPlus(event) {
+    const buttonPlus = event.target.dataset.action;
+
+    if(buttonPlus === 'plus') {
+        const counterWrapper = event.target.closest('.counter-wrapper');
+        const counter = counterWrapper.querySelector('[data-counter]');
+        counter.textContent++;
+    }
+}
+
+//добавление счеткчика в карзине
+function counterMinus(event) {
+    const buttonPlus = event.target.dataset.action;
+
+    if(buttonPlus === 'minus') {
+        const counterWrapper = event.target.closest('.counter-wrapper');
+        const counter = counterWrapper.querySelector('[data-counter]');
+        if(counter.textContent > 1) {
+            counter.textContent--;
+        }else if(Number(counter.textContent) === 1 && counterWrapper.closest('.cart-wrapper')) {
+            counterWrapper.closest('.cart-item').remove();
+        }
+    }
+}
