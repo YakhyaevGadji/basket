@@ -93,10 +93,17 @@ function counterMinus(event) {
     }
 }
 function checkBasketInEmpty() {
+    const delivery = document.querySelector('.delivery');
+    const order = document.querySelector('#order-form');
+
     if(cartWrapper.children.length >= 1) {
         emptyBasket.classList.add('none');
-        console.log(true);
+        delivery.classList.remove('none');
+        order.classList.remove('none');
+        
     }else {
+        order.classList.add('none');
         emptyBasket.classList.remove('none');
+        delivery.classList.add('none');
     }
 }
