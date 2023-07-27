@@ -7,6 +7,7 @@ const emptyBasket = document.querySelector('[data-cart-empty]');
 parent.addEventListener('click', counterPlus);
 parent.addEventListener('click', counterMinus);
 
+let tasks = [];
 
 dataCarts.forEach((dataCart) => {
     dataCart.addEventListener('click', addTask);
@@ -22,13 +23,16 @@ function addTask(event) {
         id: cart.dataset.id,
         srcImg: cart.querySelector('.product-img').getAttribute('src'),
         title: cart.querySelector('.item-title').textContent,
-        itemsInBox: cart.querySelector('[data-items-in-box').textContent,
+        itemsInBox: cart.querySelector('[data-items-in-box]').textContent,
         counter: cart.querySelector('[data-counter]').textContent,
         weight: cart.querySelector('.price__weight').textContent,
         price: cart.querySelector('.price__currency').textContent
     }
     
     cartWrapper.insertAdjacentHTML('beforeend', taskHtml(taskElements));
+
+    
+    tasks.push(taskElements);
 
     checkBasketInEmpty();
 };
@@ -83,11 +87,22 @@ function counterMinus(event) {
     if(buttonPlus === 'minus') {
         const counterWrapper = event.target.closest('.counter-wrapper');
         const counter = counterWrapper.querySelector('[data-counter]');
+
         if(counter.textContent > 1) {
             counter.textContent--;
         }else if(Number(counter.textContent) === 1 && counterWrapper.closest('.cart-wrapper')) {
             counterWrapper.closest('.cart-item').remove();
-            
+
+            const cartItem = counterWrapper.closest('.cart-item').dataset.id;
+    
+            const index = tasks.findIndex((task) => {
+                if(+task.id === +cartItem) {
+                    return true;
+                }
+            });
+        
+            tasks.splice(index, 1);
+
             checkBasketInEmpty();
         }
     }
