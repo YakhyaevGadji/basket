@@ -13,7 +13,7 @@ dataCarts.forEach((dataCart) => {
     dataCart.addEventListener('click', addTask);
 });
 
-checkBasketInEmpty();
+checkBasketInEmptyAndCalc();
 
 //Создание Html разметки в карзине
 function addTask(event) {
@@ -34,7 +34,7 @@ function addTask(event) {
     
     tasks.push(taskElements);
 
-    checkBasketInEmpty();
+    checkBasketInEmptyAndCalc();
 };
 
 //Html разметка карточки
@@ -77,6 +77,8 @@ function counterPlus(event) {
         const counterWrapper = event.target.closest('.counter-wrapper');
         const counter = counterWrapper.querySelector('[data-counter]');
         counter.textContent++;
+
+        checkBasketInEmptyAndCalc();
     }
 }
 
@@ -103,13 +105,35 @@ function counterMinus(event) {
         
             tasks.splice(index, 1);
 
-            checkBasketInEmpty();
+            
         }
+        checkBasketInEmptyAndCalc();
     }
 }
-function checkBasketInEmpty() {
+function checkBasketInEmptyAndCalc() {
     const delivery = document.querySelector('.delivery');
     const order = document.querySelector('#order-form');
+    const priceCurrency = cartWrapper.querySelectorAll('.price__currency');
+    const totalPrice = document.querySelector('.total-price');
+
+    let currency = 0;
+    priceCurrency.forEach((item) => {
+        const taskPrice = item.textContent;
+        const taskCounter = item.closest('.cart-item').querySelector('[data-counter]');
+        const deliveryCost = document.querySelector('.delivery-cost');
+
+        currency += parseInt(taskPrice) * taskCounter.textContent;
+        
+        if(currency > 600) {
+            deliveryCost.textContent = 'бесплатно';
+            deliveryCost.classList.add('free');
+        }else {
+            deliveryCost.textContent = '200 ₽';
+            deliveryCost.classList.remove('free');
+        }
+    });
+
+    totalPrice.textContent = currency;
 
     if(cartWrapper.children.length >= 1) {
         emptyBasket.classList.add('none');
