@@ -34,6 +34,14 @@ function addTask(event) {
     
     tasks.push(taskElements);
 
+    const serchTask = cartWrapper.querySelector(`${taskElements.id}`);
+
+    if(serchTask) {
+        console.log(true);
+    }else {
+        console.log(false);
+    }
+
     checkBasketInEmptyAndCalc();
 };
 
@@ -77,9 +85,8 @@ function counterPlus(event) {
         const counterWrapper = event.target.closest('.counter-wrapper');
         const counter = counterWrapper.querySelector('[data-counter]');
         counter.textContent++;
-
-        checkBasketInEmptyAndCalc();
     }
+    checkBasketInEmptyAndCalc()
 }
 
 //добавление счеткчика в карзине
