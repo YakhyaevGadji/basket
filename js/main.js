@@ -29,19 +29,18 @@ function addTask(event) {
         price: cart.querySelector('.price__currency').textContent
     }
     
-    cartWrapper.insertAdjacentHTML('beforeend', taskHtml(taskElements));
-
+    const serchTask = cartWrapper.querySelector(`[data-id="${taskElements.id}"]`);
     
-    tasks.push(taskElements);
-
-    const serchTask = cartWrapper.querySelector(`${taskElements.id}`);
-
     if(serchTask) {
-        console.log(true);
+        const serhCount = serchTask.querySelector('[data-counter]');
+        serhCount.textContent = +serhCount.textContent + +taskElements.counter;
     }else {
-        console.log(false);
+        cartWrapper.insertAdjacentHTML('beforeend', taskHtml(taskElements));
     }
 
+    tasks.push(taskElements);
+
+    
     checkBasketInEmptyAndCalc();
 };
 
